@@ -206,6 +206,10 @@
           </li>
           </div>
 
+          <!-- 放在你的 <nav> 裡面，跟主頁、愛情、報仇那些並列 -->
+          <li><button id="google-login-btn" style="background:none; border:none; color:white; font-size:16px; cursor:pointer;">Google登入</button></li>
+
+
           <!--google login顯示-->
           <div class="g_id_signin"
           data-type="standard"
@@ -3140,6 +3144,36 @@
   <script>
     AOS.init();
   </script>
+
+<!--new google login button with client ID-->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  window.onload = function() {
+    google.accounts.id.initialize({
+      client_id: "123126499028-toiu07rksd486r9ci77doidv4mmjssmr.apps.googleusercontent.com", // My Own Client ID
+      callback: handleCredentialResponse
+    });
+
+    document.getElementById('google-login-btn').addEventListener('click', function() {
+      google.accounts.id.prompt(); // 手動呼叫Google登入提示
+    });
+  }
+
+  function handleCredentialResponse(response) {
+    const data = parseJwt(response.credential);
+    alert(`哇嗚嗚！！！恭喜你登入成功！歡迎：${data.name}來到我的世界！`);
+    // 你可以自己改成顯示名字或email
+  }
+
+  function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  }
+</script>
 
 </body>
 
