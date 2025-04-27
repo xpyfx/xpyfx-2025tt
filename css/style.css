@@ -420,6 +420,7 @@ body.active { overflow: hidden; }
   transition: 0.15s ease-in;
   visibility: hidden;
   z-index: 3;
+  display: flex; justify-content: space-between;
 }
 
 .navbar.active {
